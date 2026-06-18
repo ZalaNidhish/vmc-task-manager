@@ -16,9 +16,8 @@ let grid = document.querySelector('.grid')
 let categoryDropDown = document.querySelector('#categoryDropDown')
 
 let activeTab
-
+let tabs
 let categories = JSON.parse(localStorage.getItem("categoryList"))
-
 
 function updateCategories(){
 
@@ -37,10 +36,10 @@ function updateCategories(){
     })
     categoryDropDown.innerHTML += `<option id="customCategory" value="custom">Custom</option>`
 
-    let tabs = document.querySelectorAll(".tabs")    
-
     activeTab = JSON.parse(localStorage.getItem("activeTab")) || categories[0]
     
+    tabs = document.querySelectorAll(".tabs")
+
     tabs.forEach((item)=>{
         if(item.getAttribute("name") == activeTab){
             item.classList.add("activeCategory")        
@@ -48,22 +47,19 @@ function updateCategories(){
     })
 }
 
-updateCategories()
-render()
-
-let tabs = document.querySelectorAll(".tabs")
-
 function findActiveTag(){
     categoryTabs.addEventListener('click', (e)=>{
         tabs.forEach(t=>t.classList.remove("activeCategory"))
         e.target.closest('h4').classList.add("activeCategory")
-        activeTab = e.target.innerHTML.toLowerCase().split(" ").join("_")    
-        render()
+        activeTab = e.target.closest("h4").getAttribute("name");    
         localStorage.setItem("activeTab", JSON.stringify(e.target.closest("h4").getAttribute("name")))
+        render()
     })
 }
 
+updateCategories()
 findActiveTag()
+
 
 addBTN.addEventListener('click', ()=>{
     overlay.style.display = "flex";
@@ -107,13 +103,13 @@ addNewCategory.addEventListener('click', ()=>{
 function handleFormSubmit(e){
     
     e.preventDefault()
-    let censusNumber = e.target[1].value
-    let mobileNumber = e.target[3].value
-    let name = e.target[5].value
-    let address = e.target[7].value
-    let category = e.target[9].value
-    let status = e.target[13].value
-    let remarks = e.target[16].value
+    let censusNumber = form.census.value
+    let mobileNumber = form.mobile.value
+    let name = form.name.value
+    let address = form.address.value
+    let category = form.category.value
+    let status = form.status.value
+    let remarks = form.remarks.value
 
 
     if(censusNumber.trim() === "" || mobileNumber.trim() === "" || name.trim() === "" || address.trim() === "" || category.trim() === ""){
@@ -122,13 +118,15 @@ function handleFormSubmit(e){
     }
 
     if(updateIndex === null){
-        let id = null
-        while(id !== null && data[category].find(item=>item.id == id)){
-            id = Date.now();
-        }
+        let id = Date.now();
         data[category].push({id, censusNumber, mobileNumber, name, address, category, status, remarks})
+        console.log(data[category]);
+        
     }else{
+        console.log(updateIndex)
         let target = data[activeTab].find(item=>item.id==updateIndex)
+        console.log(target)
+        if(!target) return
         target.censusNumber = censusNumber
         target.mobileNumber = mobileNumber
         target.name = name
@@ -173,9 +171,7 @@ function render(dataArr = data[activeTab] || []){
                 </div>
 
             </div>
-        `
-    console.log(ui);
-        
+        `        
     grid.innerHTML = ui
     })
 }
@@ -196,15 +192,18 @@ card.forEach(c=>{
 })
 
 function handleUpdate(c){
-            updateIndex = c.getAttribute("data-id")
+            updateIndex = c.dataset.id
+            const item = data[activeTab].find(item => item.id == updateIndex);
+            if(!item) return;
+            console.log("item", item);
             overlay.style.display = "flex";
-            form[1].value = c.children[0].children[1].children[0].textContent
-            form[3].value = c.children[0].children[1].children[2].textContent
-            form[5].value = c.children[0].children[0].textContent
-            form[7].value = c.children[0].children[2].textContent
-            form[9].value = activeTab
-            form[11].value = c.getAttribute("data-status")
-            form[13].value = c.children[0].children[3].textContent
+            document.getElementsByName("census")[0].value = item.censusNumber;
+            document.getElementsByName("mobile")[0].value = item.mobileNumber;
+            document.getElementsByName("name")[0].value = item.name;
+            document.getElementsByName("address")[0].value = item.address;
+            document.getElementsByName("category")[0].value = item.category;
+            document.getElementsByName("status")[0].value = item.status
+            document.getElementsByName("remarks")[0].value = item.remarks;
 }
 
 function handleDelete(id, activeTab){
