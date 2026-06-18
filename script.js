@@ -121,12 +121,9 @@ function handleFormSubmit(e){
     if(updateIndex === null){
         let id = Date.now();
         data[category].push({id, censusNumber, mobileNumber, name, address, category, status, remarks})
-        console.log(data[category]);
         
     }else{
-        console.log(updateIndex)
         let target = data[activeTab].find(item=>item.id==updateIndex)
-        console.log(target)
         if(!target) return
         target.censusNumber = censusNumber
         target.mobileNumber = mobileNumber
@@ -187,12 +184,10 @@ grid.addEventListener('click', (e)=>{
 
     let btn = e.target.closest(".right")
     if(btn){
-        console.log("delete clicked");
         handleDelete(card.getAttribute("data-id"), activeTab);
         return
     }
 
-    console.log("card clicked");
     handleUpdate(card)
 })
 
@@ -202,6 +197,7 @@ function handleUpdate(c){
     const item = data[activeTab].find(item => item.id == updateIndex);
     if(!item) return;
     overlay.style.display = "flex";
+    editBTN.textContent = "edit"
     document.getElementsByName("census")[0].value = item.censusNumber;
     document.getElementsByName("mobile")[0].value = item.mobileNumber;
     document.getElementsByName("name")[0].value = item.name;
@@ -234,10 +230,10 @@ search.addEventListener('input', (e)=>{
 
 
 
-// if ("serviceWorker" in navigator) {
-//   window.addEventListener("load", () => {
-//     navigator.serviceWorker
-//       .register("./service-worker.js")
-//       .catch(err => console.log(err));
-//   });
-// }
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("./service-worker.js")
+      .catch(err => console.log(err));
+  });
+}
