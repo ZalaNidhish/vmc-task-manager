@@ -193,7 +193,8 @@ grid.addEventListener('click', (e)=>{
     let card = e.target.closest(".card")
     let nums = e.target.closest(".numspan")
 
-    if(!card || nums) return
+    if(!card) return
+    if(nums) return
 
     let btn = e.target.closest(".right")
     if(btn){
