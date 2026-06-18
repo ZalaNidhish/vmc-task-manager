@@ -44,10 +44,10 @@ function updateCategories(){
             item.classList.add("activeCategory")        
         }
     })
-    render()
 }
 
 updateCategories()
+render()
 
 let tabs = document.querySelectorAll(".tabs")
 
