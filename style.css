@@ -251,11 +251,12 @@ form #edit{
 
 .card .right{
     background-color: rgba(255, 39, 39, 0.432);
-    color: red;
+    color: green;
     padding: 1vh;
     border-radius: 10px;
     font-size: 14px;
     width: fit-content;
+    cursor: pointer;
 }
 
 .card .left .left{

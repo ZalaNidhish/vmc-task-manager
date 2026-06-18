@@ -10,7 +10,6 @@ let categoryTabs = document.querySelector("#catagoryTabs")
 let addBTN = document.querySelector("#addBTN")
 let closeBTN = document.querySelector(".close")
 let editBTN = document.querySelector("#edit")
-let deleteBTN = document.querySelector("#delete")
 let form = document.querySelector('form')
 let overlay = document.querySelector('.overlay')
 let screen = document.querySelector('.screen')
@@ -45,7 +44,7 @@ function updateCategories(){
             item.classList.add("activeCategory")        
         }
     })
-    render(data[activeTab])
+    render()
 }
 
 updateCategories()
@@ -57,7 +56,7 @@ function findActiveTag(){
         tabs.forEach(t=>t.classList.remove("activeCategory"))
         e.target.closest('h4').classList.add("activeCategory")
         activeTab = e.target.innerHTML.toLowerCase().split(" ").join("_")    
-        render(data[activeTab])
+        render()
         localStorage.setItem("activeTab", JSON.stringify(e.target.closest("h4").getAttribute("name")))
     })
 }
@@ -147,7 +146,7 @@ function handleFormSubmit(e){
 
     form.reset()
     overlay.style.display = "none"
-    render(data[activeTab])
+    render()
 }
 
 form.addEventListener('submit', (e)=>{
@@ -155,15 +154,10 @@ form.addEventListener('submit', (e)=>{
 })
 
 
-function render(dataArr){
+function render(dataArr = data[activeTab]){
 
     grid.innerHTML = ''
-
-    dataArr.sort((a,b)=>{
-        if(a.status == "pending" && b.status == "completed"){
-            return -1
-        }
-    }).forEach(item=>{
+    dataArr.forEach(item=>{
         grid.innerHTML += `                
             <div class="card ${item.status}" data-id="${item.id}" data-status="${item.status}">        
                 <div class="left">
@@ -182,46 +176,44 @@ function render(dataArr){
 
             </div>
         `
-
-        let deleteBTN = document.querySelectorAll(".right")
-        let card = document.querySelectorAll(".card")
-        card.forEach(c=>{
-            c.addEventListener('click', (e)=>{
-                let target = e.target.closest(".card")
-                let btn = e.target.closest(".right")
-                if(btn) handleDelete(target.getAttribute("data-id"), activeTab);
-                else{
-                    updateIndex = c.getAttribute("data-id")
-                    overlay.style.display = "flex";
-                    form[1].value = c.children[0].children[1].children[0].textContent
-                    form[3].value = c.children[0].children[1].children[2].textContent
-                    form[5].value = c.children[0].children[0].textContent
-                    form[7].value = c.children[0].children[2].textContent
-                    form[9].value = activeTab
-                    form[11].value = c.getAttribute("data-status")
-                    form[13].value = c.children[0].children[3].textContent
-                }
-            })
-        })
     })
 }
 
+
+let deleteBTN = document.querySelectorAll(".right")
+let card = document.querySelectorAll(".card")
+card.forEach(c=>{
+    c.addEventListener('click', (e)=>{
+        let target = e.target.closest(".card")
+        let btn = e.target.closest(".right")
+        if(btn) handleDelete(target.getAttribute("data-id"), activeTab);
+        else{
+            updateIndex = c.getAttribute("data-id")
+            overlay.style.display = "flex";
+            form[1].value = c.children[0].children[1].children[0].textContent
+            form[3].value = c.children[0].children[1].children[2].textContent
+            form[5].value = c.children[0].children[0].textContent
+            form[7].value = c.children[0].children[2].textContent
+            form[9].value = activeTab
+            form[11].value = c.getAttribute("data-status")
+            form[13].value = c.children[0].children[3].textContent
+        }
+    })
+})
 
 function handleDelete(id, activeTab){
     let index = data[activeTab].findIndex(item=>item.id==id)
     if(confirm("confirm delete")){
         data[activeTab].splice(index,1)
         localStorage.setItem("data", JSON.stringify(data))
-        render(data[activeTab])
+        render()
     }
 }
 
 let search = document.querySelector('#search')
 
 search.addEventListener('input', (e)=>{
-
     let query = e.target.value
-
     let filteredItems = data[activeTab].filter(item=>{
         if(item.name.includes(query) || item.censusNumber.includes(query) || item.mobileNumber.includes(query) || item.address.includes(query) || item.remarks.includes(query)){
             return item
@@ -229,8 +221,6 @@ search.addEventListener('input', (e)=>{
     })
     render(filteredItems)
 })
-
-
 
 
 
