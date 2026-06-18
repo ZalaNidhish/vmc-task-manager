@@ -17,6 +17,7 @@ let categoryDropDown = document.querySelector('#categoryDropDown')
 
 let activeTab
 let tabs
+let updateCategory = false
 let categories = JSON.parse(localStorage.getItem("categoryList"))
 
 function updateCategories(){
@@ -84,6 +85,7 @@ categoryDropDown.addEventListener('change', (e)=>{
     if(e.target.value == "custom"){
         selectCategory.style.display = "none"
         newCategory.style.display = "initial"
+        return
     }   
 })
 
@@ -121,18 +123,26 @@ function handleFormSubmit(e){
     if(updateIndex === null){
         let id = Date.now();
         data[category].push({id, censusNumber, mobileNumber, name, address, category, status, remarks})
-        
-    }else{
-        let target = data[activeTab].find(item=>item.id==updateIndex)
-        if(!target) return
-        target.censusNumber = censusNumber
-        target.mobileNumber = mobileNumber
-        target.name = name
-        target.category = category
-        target.status = status
-        target.address = address
-        target.remarks = remarks
-        updateIndex = null
+    }else if(updateIndex){
+
+        if(updateCategory == true){
+            let index = data[activeTab].findIndex(item=>item.id == updateIndex)
+            data[activeTab].splice(index,1)
+            let id = Date.now();
+            data[category].push({id, censusNumber, mobileNumber, name, address, category, status, remarks})
+        }else{
+            let target = data[activeTab].find(item=>item.id==updateIndex)
+            if(!target) return
+            target.censusNumber = censusNumber
+            target.mobileNumber = mobileNumber
+            target.name = name
+            target.category = category
+            target.status = status
+            target.address = address
+            target.remarks = remarks
+            updateIndex = null
+        }   
+
     }
 
     localStorage.setItem("data", JSON.stringify(data))
@@ -141,6 +151,7 @@ function handleFormSubmit(e){
     overlay.style.display = "none"
     render()
 }
+
 
 form.addEventListener('submit', (e)=>{
     handleFormSubmit(e)
@@ -151,27 +162,28 @@ function render(dataArr = data[activeTab] || []){
 
     let ui = ''
     grid.innerHTML = ui
-    dataArr.forEach(item=>{
+
+    if(dataArr.length<1){
+        ui = '<h1>No data</h1>'
+    }else{        
+        dataArr.forEach(item=>{
         ui += `                
             <div class="card ${item.status}" data-id="${item.id}" data-status="${item.status}">        
                 <div class="left">
-                    <h3>${item.name}</h3>
-                    <div class="numbers">
-                        <h4>${item.censusNumber}</h4>
-                        <span>|</span>
-                        <h4>${item.mobileNumber}</h4>
+                    <h2>${item.name}</h2>
+                    <h4>CENSUS NUMBER: <span class="numspan">${item.censusNumber}</span></h4>
+                    <h4>MOBILE NUMBER: <span class="numspan"><a href="tel:+">${item.mobileNumber}</a></span></h4>
+                    <p>Address: ${item.address}</p>
+                    <p class="remarks">Remark: ${item.remarks}</p>
                     </div>
-                    <p>${item.address}</p>
-                    <p class="remarks">${item.remarks}</p>
-                </div>
-                <div class="right">
+                    <div class="right">
                     <i class="ri-delete-bin-6-fill"></i>
                 </div>
-
             </div>
-        `        
+            `     
+        })
+    }
     grid.innerHTML = ui
-    })
 }
 
 
@@ -205,6 +217,15 @@ function handleUpdate(c){
     document.getElementsByName("category")[0].value = item.category;
     document.getElementsByName("status")[0].value = item.status
     document.getElementsByName("remarks")[0].value = item.remarks;
+    
+    document.getElementsByName("category")[0].addEventListener("change", (e)=>{
+        if(e.target.value != item.category){
+            updateCategory = true
+        }else{
+            updateCategory = false
+        }
+    })
+
 }
 
 function handleDelete(id, activeTab){

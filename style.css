@@ -1,3 +1,8 @@
+:root{
+    --light: #9b83f8;
+    --dark: #4700b9;
+}
+
 *{
     margin: 0;
     padding: 0;
@@ -26,7 +31,7 @@ main{
 }
 
 header{
-    background-color: #8B6F47;
+    background-color: var(--light);
     color: rgb(0, 0, 0);
 }
 
@@ -35,6 +40,10 @@ header .logo{
     display: flex;
     align-items: center;
     justify-content: space-between;
+    font-size: 18px;
+    font-weight: 600;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
 }
 
 header .logo .img{
@@ -59,17 +68,18 @@ header .search{
 }
 
 header .search input{
-    padding: 0.7vh;
+    padding: 1vh;
     max-width: 80%;
     border-radius: 20px;
     outline: none;
     border: 1px solid rgba(126, 126, 126, 0.737);
+    font-size: 14px;
 }
 
 header .search button{
     padding: 1vh 1.5vh;
-    font-size: 10px;
-    background-color: #613000;
+    font-size: 14px;
+    background-color: var(--dark);
     border-radius: 20px;
     outline: none;
     border: none;
@@ -83,17 +93,19 @@ header #catagoryTabs{
     justify-content: start;
     overflow: scroll;
     cursor: pointer;
-    background-color: #8B6F47;
+    background-color: var(--light);
 }
 
 header #catagoryTabs h4{
     font-weight: 200;
-    font-size: 12px;
+    color: rgb(206, 206, 206);
+    font-size: 16px;
     text-wrap: nowrap;
     padding-inline: 2vh;
     padding-block: 0.5vh;
     border-right: 1px solid black;
     border-top: 1px solid black;
+    font-weight: 600;
 }
 
 .screen{
@@ -101,8 +113,8 @@ header #catagoryTabs h4{
 }
 
 #addBTN{
-    background-color: #613000;
-    border-radius: 50%;
+    background: linear-gradient(135deg, #4700b9, #a771ff);
+    border-radius: 10px;
     color: rgb(255, 255, 255);
     height: 8vh;
     width: 8vh;
@@ -117,7 +129,7 @@ header #catagoryTabs h4{
 }
 
 .activeCategory{
-    background-color: #613000;
+    background-color: var(--dark);
     color: rgb(255, 255, 255);
 }
 
@@ -171,7 +183,7 @@ form .close{
 form .close span{
     height: 4vh;
     width: 4vh;
-    background-color: #613000;
+    background-color: var(--dark);
     color: white;
     display: flex;
     align-items: center;
@@ -182,6 +194,7 @@ form .close span{
 form .inputs fieldset{
     outline: none;
     border: none;
+    font-size: 14px;
 }
 
 form .inputs input{
@@ -191,6 +204,7 @@ form .inputs input{
     width: 100%;
     padding: 1vh;
     color: black;
+    font-size: 16px;
 }
 
 form #edit{
@@ -199,7 +213,7 @@ form #edit{
     width: 35%;
     padding: 1vh;
     color: white;
-    background-color: #613000;
+    background-color: var(--dark);
     align-self: flex-end;
 }
 
@@ -216,7 +230,7 @@ form #edit{
     border: none;
     padding: 1vh 2vh;
     color: white;
-    background-color: #613000;
+    background-color: var(--dark);
     align-self: flex-end;
     font-size: 12px;
 }
@@ -260,15 +274,33 @@ form #edit{
     cursor: pointer;
 }
 
-.card .left .left{
+.card .left{
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 2px;
 }
 
-.card .left .numbers{
-    display: flex;
-    gap: 2vh;
+.card .left h2{
+    display: inline;
+    font-size: 24px;
+}
+
+.card .left p{
+    display: inline;
+    font-size: 16px;
+}
+
+.card .left h4{
+    font-size: 16px;
+}
+
+.card .left a{
+    text-decoration: none;
+    color: black;
+}
+
+.card .left .numspan{
+    text-decoration: underline;
 }
 
 .card .left .remarks{
