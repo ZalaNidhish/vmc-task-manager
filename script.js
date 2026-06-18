@@ -12,7 +12,6 @@ let closeBTN = document.querySelector(".close")
 let editBTN = document.querySelector("#edit")
 let form = document.querySelector('form')
 let overlay = document.querySelector('.overlay')
-let screen = document.querySelector('.screen')
 let grid = document.querySelector('.grid')
 let categoryDropDown = document.querySelector('#categoryDropDown')
 
@@ -25,7 +24,10 @@ function updateCategories(){
 
     categories = JSON.parse(localStorage.getItem("categoryList"))
     categories.forEach(category=>{
-        if(!data[category]) data[category] = []
+        if(!data[category]){
+            data[category] = []
+            localStorage.setItem("data", JSON.stringify(data))
+        }
     })
     categoryDropDown.innerHTML = `<option value="">-- select category --</option>`
     categoryTabs.innerHTML = ''
@@ -37,7 +39,7 @@ function updateCategories(){
 
     let tabs = document.querySelectorAll(".tabs")    
 
-    activeTab = JSON.parse(localStorage.getItem("activeTab")) || categoryTabs.firstChild
+    activeTab = JSON.parse(localStorage.getItem("activeTab")) || categories[0]
     
     tabs.forEach((item)=>{
         if(item.getAttribute("name") == activeTab){
@@ -110,7 +112,6 @@ function handleFormSubmit(e){
     let name = e.target[5].value
     let address = e.target[7].value
     let category = e.target[9].value
-    let customCategory = e.target[11].value
     let status = e.target[13].value
     let remarks = e.target[16].value
 
@@ -120,14 +121,10 @@ function handleFormSubmit(e){
         return
     }
 
-    function generateID(){
-        return Math.floor(Math.random()*8999 + 1000)
-    }
-
-    if(!updateIndex){
-        let id = generateID()
-        while(data[category].find(item=>item.id == id)){
-            id = generateID()
+    if(updateIndex === null){
+        let id = null
+        while(id !== null && data[category].find(item=>item.id == id)){
+            id = Date.now();
         }
         data[category].push({id, censusNumber, mobileNumber, name, address, category, status, remarks})
     }else{
@@ -154,11 +151,12 @@ form.addEventListener('submit', (e)=>{
 })
 
 
-function render(dataArr = data[activeTab]){
+function render(dataArr = data[activeTab] || []){
 
-    grid.innerHTML = ''
+    let ui = ''
+    grid.innerHTML = ui
     dataArr.forEach(item=>{
-        grid.innerHTML += `                
+        ui += `                
             <div class="card ${item.status}" data-id="${item.id}" data-status="${item.status}">        
                 <div class="left">
                     <h3>${item.name}</h3>
@@ -176,18 +174,28 @@ function render(dataArr = data[activeTab]){
 
             </div>
         `
+    console.log(ui);
+        
+    grid.innerHTML = ui
     })
 }
 
 
-let deleteBTN = document.querySelectorAll(".right")
 let card = document.querySelectorAll(".card")
 card.forEach(c=>{
     c.addEventListener('click', (e)=>{
         let target = e.target.closest(".card")
+        if(!target) return
         let btn = e.target.closest(".right")
-        if(btn) handleDelete(target.getAttribute("data-id"), activeTab);
-        else{
+        if(btn){
+            handleDelete(target.getAttribute("data-id"), activeTab);
+            return
+        }
+        handleUpdate(c)
+    })
+})
+
+function handleUpdate(c){
             updateIndex = c.getAttribute("data-id")
             overlay.style.display = "flex";
             form[1].value = c.children[0].children[1].children[0].textContent
@@ -197,9 +205,7 @@ card.forEach(c=>{
             form[9].value = activeTab
             form[11].value = c.getAttribute("data-status")
             form[13].value = c.children[0].children[3].textContent
-        }
-    })
-})
+}
 
 function handleDelete(id, activeTab){
     let index = data[activeTab].findIndex(item=>item.id==id)
