@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <link rel="stylesheet" href="style.css">
+    <link
+  href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css"
+  rel="stylesheet"
+/>
+</head>
+
+<body>
+
+    <main>
+
+        <div class="overlay">
+            <form>
+            <div class="close"><span id="closeBTN">x</span></div>
+            <div class="inputs">
+                    <fieldset>
+                    <label for="census">Census Number<span id="required">*</span></label>
+                    <input type="text" name="census">
+                </fieldset>
+                <fieldset>
+                    <label for="mobile">Mobile Number<span id="required">*</span></label>
+                    <input type="number" name="mobile">
+                </fieldset>
+                <fieldset>
+                    <label for="name">Name<span id="required">*</span></label>
+                    <input type="text" name="name">
+                </fieldset>
+                <fieldset>
+                    <label for="address">Address<span id="required">*</span></label>
+                    <input type="text" name="address">
+                </fieldset>
+                <fieldset id="selectCategory">
+                    <label for="category">Category<span id="required">*</span></label>
+                    <select name="category" id="categoryDropDown">
+                        <option value="">-- select category --</option>
+                    </select>
+                </fieldset>
+                <fieldset id="newCategory">
+                    <input type="text" placeholder="category name" class="newCategory">
+                    <button class="addNewCategory" type="button">Add Category</button>
+                </fieldset>
+                <fieldset>
+                    <label for="status">Status<span id="required">*</span></label>
+                    <select name="status" id="statusDropDown">
+                        <option value="pending" selected>pending</option>
+                        <option value="completed">completed</option>
+                    </select>
+                </fieldset>
+                <fieldset>
+                    <label for="remarks">Remarks</label>
+                    <input type="text" name="remarks">
+                </fieldset>
+            </div>
+            <button id="edit" type="submit">edit</button>
+        </form>
+        </div>
+
+        <header>
+            <div class="logo">
+                <div class="img"><img src="./assets/logo.png" alt=""></div>
+                <h2>VMC Task Manager</h2>
+            </div>
+            <div class="search">
+                <input id="search" placeholder="Search ..." type="text">
+                <button>Search</button>
+            </div>
+            <div id="catagoryTabs"></div>
+        </header>   
+        
+        <div class="screen">
+            <div class="grid"></div>
+            <div id="addBTN">+</div>
+        </div>
+            
+    </main>
+    
+
+    <script src="script.js"></script>
+</body>
+</html>

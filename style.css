@@ -1,0 +1,275 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    height: 100vh;
+    width: 100vw;
+    background-color: whitesmoke;
+    color: black;
+    font-family: monospace;
+}
+
+::-webkit-scrollbar{
+    display: none;
+}
+
+main{
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+}
+
+header{
+    background-color: #8B6F47;
+    color: rgb(0, 0, 0);
+}
+
+header .logo{
+    padding: 2vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header .logo .img{
+    height: 5vh;
+    width: 5vh;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+header .logo .img img{
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}
+
+header .search{
+    padding: 2vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2vh;
+}
+
+header .search input{
+    padding: 0.7vh;
+    max-width: 80%;
+    border-radius: 20px;
+    outline: none;
+    border: 1px solid rgba(126, 126, 126, 0.737);
+}
+
+header .search button{
+    padding: 1vh 1.5vh;
+    font-size: 10px;
+    background-color: #613000;
+    border-radius: 20px;
+    outline: none;
+    border: none;
+    color: white;
+}
+
+header #catagoryTabs{
+    display: flex;
+    align-items: start;
+    flex-shrink: 0;
+    justify-content: start;
+    overflow: scroll;
+    cursor: pointer;
+    background-color: #8B6F47;
+}
+
+header #catagoryTabs h4{
+    font-weight: 200;
+    font-size: 12px;
+    text-wrap: nowrap;
+    padding-inline: 2vh;
+    padding-block: 0.5vh;
+    border-right: 1px solid black;
+    border-top: 1px solid black;
+}
+
+.screen{
+    height: 100%;
+}
+
+#addBTN{
+    background-color: #613000;
+    border-radius: 50%;
+    color: rgb(255, 255, 255);
+    height: 8vh;
+    width: 8vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 32px;
+    cursor: pointer;
+    position: absolute;
+    bottom: 4vh;
+    right: 4vh;
+}
+
+.activeCategory{
+    background-color: #613000;
+    color: rgb(255, 255, 255);
+}
+
+#required{
+    color: red;
+}
+
+.overlay{
+    background-color: rgba(0, 0, 0, 0.384);
+    position: absolute;
+    z-index: 10;
+    height: 100%;
+    width: 100%;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: end;
+
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: space-between;
+    gap: 2vh;
+    background-color: white;
+    box-shadow: 2px 2px 10px rgba(126, 126, 126, 0.502);
+    height: 70vh;
+    width: 100%;
+    bottom: 0;
+    border-top-right-radius: 40px;
+    border-top-left-radius: 40px;
+    padding-inline: 4vh;
+    padding-block: 2vh;
+}
+
+form .inputs{
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+}
+
+form .close{
+    display: flex;
+    justify-content: end;
+    cursor: pointer;
+    align-self: flex-end;
+}
+
+form .close span{
+    height: 4vh;
+    width: 4vh;
+    background-color: #613000;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+form .inputs fieldset{
+    outline: none;
+    border: none;
+}
+
+form .inputs input{
+    outline: none;
+    border: 1px solid rgba(117, 117, 117, 0.868);
+    border-radius: 7px;
+    width: 100%;
+    padding: 1vh;
+    color: black;
+}
+
+form #edit{
+    outline: none;
+    border: none;
+    width: 35%;
+    padding: 1vh;
+    color: white;
+    background-color: #613000;
+    align-self: flex-end;
+}
+
+#newCategory{
+    display: none;
+}
+
+#newCategory input{
+    width: 50%;
+}
+
+.addNewCategory{
+    outline: none;
+    border: none;
+    padding: 1vh 2vh;
+    color: white;
+    background-color: #613000;
+    align-self: flex-end;
+    font-size: 12px;
+}
+
+.grid{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    gap: 2vh;
+    padding: 1vh;
+    height: 80vh;
+    margin-top: 2vh;
+    overflow-y: scroll;
+}
+
+.card{
+    width: 100%;
+    padding: 2vh 4vh;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 2px 2px 6px rgba(184, 184, 184, 0.865);
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+}
+
+.card.completed{
+    background-color: rgba(227, 227, 227, 0.76);
+    color: grey;
+}
+
+.card .right{
+    background-color: rgba(255, 39, 39, 0.432);
+    color: red;
+    padding: 1vh;
+    border-radius: 10px;
+    font-size: 14px;
+    width: fit-content;
+}
+
+.card .left .left{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.card .left .numbers{
+    display: flex;
+    gap: 2vh;
+}
+
+.card .left .remarks{
+    color: rgb(123, 68, 0);
+    font-weight: 800;
+}
