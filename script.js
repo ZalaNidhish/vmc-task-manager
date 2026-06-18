@@ -171,8 +171,8 @@ function render(dataArr = data[activeTab] || []){
             <div class="card ${item.status}" data-id="${item.id}" data-status="${item.status}">        
                 <div class="left">
                     <h2>${item.name}</h2>
-                    <h4>CENSUS NUMBER: <span class="numspan">${item.censusNumber}</span></h4>
-                    <h4>MOBILE NUMBER: <span class="numspan"><a href="tel:+">${item.mobileNumber}</a></span></h4>
+                    <p>CENSUS NUMBER: <span class="numspan">${item.censusNumber}</span></p>
+                    <p>MOBILE NUMBER: <span class="numspan"><a href="tel:+">${item.mobileNumber}</a></span></p>
                     <p>Address: ${item.address}</p>
                     <p class="remarks">Remark: ${item.remarks}</p>
                     </div>
