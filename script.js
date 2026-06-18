@@ -59,6 +59,7 @@ function findActiveTag(){
 
 updateCategories()
 findActiveTag()
+render()
 
 
 addBTN.addEventListener('click', ()=>{
@@ -177,33 +178,37 @@ function render(dataArr = data[activeTab] || []){
 }
 
 
-let card = document.querySelectorAll(".card")
-card.forEach(c=>{
-    c.addEventListener('click', (e)=>{
-        let target = e.target.closest(".card")
-        if(!target) return
-        let btn = e.target.closest(".right")
-        if(btn){
-            handleDelete(target.getAttribute("data-id"), activeTab);
-            return
-        }
-        handleUpdate(c)
-    })
+
+grid.addEventListener('click', (e)=>{
+    
+    let card = e.target.closest(".card")
+
+    if(!card) return
+
+    let btn = e.target.closest(".right")
+    if(btn){
+        console.log("delete clicked");
+        handleDelete(card.getAttribute("data-id"), activeTab);
+        return
+    }
+
+    console.log("card clicked");
+    handleUpdate(card)
 })
 
+
 function handleUpdate(c){
-            updateIndex = c.dataset.id
-            const item = data[activeTab].find(item => item.id == updateIndex);
-            if(!item) return;
-            console.log("item", item);
-            overlay.style.display = "flex";
-            document.getElementsByName("census")[0].value = item.censusNumber;
-            document.getElementsByName("mobile")[0].value = item.mobileNumber;
-            document.getElementsByName("name")[0].value = item.name;
-            document.getElementsByName("address")[0].value = item.address;
-            document.getElementsByName("category")[0].value = item.category;
-            document.getElementsByName("status")[0].value = item.status
-            document.getElementsByName("remarks")[0].value = item.remarks;
+    updateIndex = c.dataset.id
+    const item = data[activeTab].find(item => item.id == updateIndex);
+    if(!item) return;
+    overlay.style.display = "flex";
+    document.getElementsByName("census")[0].value = item.censusNumber;
+    document.getElementsByName("mobile")[0].value = item.mobileNumber;
+    document.getElementsByName("name")[0].value = item.name;
+    document.getElementsByName("address")[0].value = item.address;
+    document.getElementsByName("category")[0].value = item.category;
+    document.getElementsByName("status")[0].value = item.status
+    document.getElementsByName("remarks")[0].value = item.remarks;
 }
 
 function handleDelete(id, activeTab){
@@ -229,11 +234,10 @@ search.addEventListener('input', (e)=>{
 
 
 
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker
-      .register("./service-worker.js")
-      .then(() => console.log("SW Registered"))
-      .catch(err => console.log(err));
-  });
-}
+// if ("serviceWorker" in navigator) {
+//   window.addEventListener("load", () => {
+//     navigator.serviceWorker
+//       .register("./service-worker.js")
+//       .catch(err => console.log(err));
+//   });
+// }
