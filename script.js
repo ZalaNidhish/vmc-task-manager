@@ -191,8 +191,9 @@ function render(dataArr = data[activeTab] || []){
 grid.addEventListener('click', (e)=>{
     
     let card = e.target.closest(".card")
+    let nums = e.target.closest(".numspan")
 
-    if(!card) return
+    if(!card || nums) return
 
     let btn = e.target.closest(".right")
     if(btn){
