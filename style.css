@@ -95,11 +95,15 @@ header #catagoryTabs{
     overflow: scroll;
     cursor: pointer;
     background-color: var(--light);
+    min-width: 100vw;
 }
 
 header #catagoryTabs h4{
+    text-align: center;
+    flex-grow: 1;
+    flex-shrink: 0;
     font-weight: 200;
-    color: rgb(206, 206, 206);
+    color: rgb(240, 240, 240);
     font-size: 14px;
     text-wrap: nowrap;
     padding-inline: 2vh;
@@ -304,4 +308,54 @@ form #edit{
 .card .left .remarks{
     color: var(--dark);
     font-weight: 800;
+}
+
+
+.deleteOverlay{
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.781);
+}
+
+.deleteOverlay .mssg{
+    background-color: whitesmoke;
+    height: 15vh;
+    width: 80vw;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    padding: 2vh;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    top: -100px;
+    animation: deleteAnime 250ms linear forwards;
+}
+
+.deleteOverlay .mssg h4{
+    font-weight: 400;
+}
+
+.deleteOverlay .mssg button{
+    background-color: rgb(255, 199, 199);
+    color: red;
+    border: none;
+    border-radius: 4px;
+    align-self: flex-end;
+    padding: 1vh 2vh;
+}
+
+@keyframes deleteAnime {
+    form{
+        top: -100px;
+    }
+    to{
+        top: 100px;
+    }
 }

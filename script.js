@@ -14,6 +14,8 @@ let form = document.querySelector('form')
 let overlay = document.querySelector('.overlay')
 let grid = document.querySelector('.grid')
 let categoryDropDown = document.querySelector('#categoryDropDown')
+let deleteOverlay= document.querySelector(".deleteOverlay")
+let deleteBtn = document.querySelector(".confirm-delete")
 
 let activeTab
 let tabs
@@ -115,8 +117,8 @@ function handleFormSubmit(e){
     let remarks = form.remarks.value
 
 
-    if(censusNumber.trim() === "" || mobileNumber.trim() === "" || name.trim() === "" || address.trim() === "" || category.trim() === ""){
-        alert("Please fill all required fields")
+    if(category.trim() === ""){
+        alert("Please select a category")
         return
     }
 
@@ -230,14 +232,30 @@ function handleUpdate(c){
 
 }
 
-function handleDelete(id, activeTab){
-    let index = data[activeTab].findIndex(item=>item.id==id)
-    if(confirm("confirm delete")){
-        data[activeTab].splice(index,1)
-        localStorage.setItem("data", JSON.stringify(data))
-        render()
-    }
+function handleDelete(id, activeTab) {
+    deleteOverlay.style.display = "initial";
+
+    deleteBtn.onclick = () => {
+        const index = data[activeTab].findIndex(
+            item => item.id == id
+        );
+
+        console.log(index);
+
+        if (index === -1) return;
+
+        data[activeTab].splice(index, 1);
+        localStorage.setItem("data", JSON.stringify(data));
+
+        deleteOverlay.style.display = "none";
+        render();
+    };
 }
+
+deleteOverlay.onclick = () => {
+    deleteOverlay.style.display = "none";
+};
+
 
 let search = document.querySelector('#search')
 
