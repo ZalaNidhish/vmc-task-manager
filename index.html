@@ -35,10 +35,10 @@
                 </fieldset>
                 <fieldset>
                     <label for="address">Address</label>
-                    <input type="text" name="address">
+                    <textarea rows="4" name="address" ></textarea>
                 </fieldset>
                 <fieldset id="selectCategory">
-                    <label for="category">Category<span id="required">*</span></label>
+                    <label for="category">category</label>
                     <select name="category" id="categoryDropDown">
                         <option value="">-- select category --</option>
                     </select>
@@ -48,15 +48,19 @@
                     <button class="addNewCategory" type="button">Add Category</button>
                 </fieldset>
                 <fieldset>
+                    <div class="choosed-categories" name="choosed-categories">
+                    </div>
+                </fieldset>
+                <fieldset>
                     <label for="status">Status<span id="required">*</span></label>
                     <select name="status" id="statusDropDown">
                         <option value="pending" selected>pending</option>
                         <option value="completed">completed</option>
                     </select>
                 </fieldset>
-                <fieldset>
+                <fieldset class="remarks">
                     <label for="remarks">Remarks</label>
-                    <input type="text" name="remarks">
+                    <textarea rows="2" name="remarks"></textarea>
                 </fieldset>
             </div>
             <button id="edit" type="submit">edit</button>

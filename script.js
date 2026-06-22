@@ -6,6 +6,10 @@ let data = JSON.parse(localStorage.getItem("data")) || {}
 
 let updateIndex = null
 
+let selected_categories = []
+
+let choosed_categories = document.querySelector(".choosed-categories")
+
 let categoryTabs = document.querySelector("#catagoryTabs")
 let addBTN = document.querySelector("#addBTN")
 let closeBTN = document.querySelector(".close")
@@ -16,11 +20,28 @@ let grid = document.querySelector('.grid')
 let categoryDropDown = document.querySelector('#categoryDropDown')
 let deleteOverlay= document.querySelector(".deleteOverlay")
 let deleteBtn = document.querySelector(".confirm-delete")
+let remove_cat = document.querySelector(".remove-cat")
+let choosed_cat = document.querySelectorAll(".choosed-cat")
+
+
+let newCategory = document.querySelector("#newCategory")
+let newCategoryinput = document.querySelector(".newCategory")
+let addNewCategory = document.querySelector(".addNewCategory")
+let selectCategory = document.querySelector("#selectCategory")
 
 let activeTab
 let tabs
 let updateCategory = false
 let categories = JSON.parse(localStorage.getItem("categoryList"))
+
+
+function display_selected_categories(){
+    choosed_categories.innerHTML = ''
+    selected_categories.forEach(cat => {
+        choosed_categories.innerHTML += `<h5 class="choosed-cat">${cat}<span class="remove-cat">x</span></h5>`
+    })
+}
+
 
 function updateCategories(){
 
@@ -69,6 +90,11 @@ addBTN.addEventListener('click', ()=>{
     overlay.style.display = "flex";
     categoryDropDown.value = activeTab
     editBTN.textContent = "Add"
+
+    selected_categories = []
+
+    selected_categories.push(activeTab)
+    display_selected_categories()
 })
 
 closeBTN.addEventListener('click', (e)=>{
@@ -78,17 +104,18 @@ closeBTN.addEventListener('click', (e)=>{
 })
 
 
-let newCategory = document.querySelector("#newCategory")
-let newCategoryinput = document.querySelector(".newCategory")
-let addNewCategory = document.querySelector(".addNewCategory")
-let selectCategory = document.querySelector("#selectCategory")
-
 categoryDropDown.addEventListener('change', (e)=>{
     if(e.target.value == "custom"){
         selectCategory.style.display = "none"
         newCategory.style.display = "initial"
         return
-    }   
+    }
+
+    if(!selected_categories.includes(e.target.value)){
+        selected_categories.push(e.target.value)
+    }
+    display_selected_categories()
+       
 })
 
 addNewCategory.addEventListener('click', ()=>{
@@ -115,7 +142,7 @@ function handleFormSubmit(e){
     let category = form.category.value
     let status = form.status.value
     let remarks = form.remarks.value
-
+    let categoryArr = selected_categories
 
     if(category.trim() === ""){
         alert("Please select a category")
@@ -123,8 +150,10 @@ function handleFormSubmit(e){
     }
 
     if(updateIndex === null){
-        let id = Date.now();
-        data[category].push({id, censusNumber, mobileNumber, name, address, category, status, remarks})
+        categoryArr.forEach(cat=>{
+            let id = Date.now();
+            data[cat].push({id, censusNumber, mobileNumber, name, address, cat, status, remarks})
+        })
     }else if(updateIndex){
 
         if(updateCategory == true){
@@ -189,7 +218,6 @@ function render(dataArr = data[activeTab] || []){
 }
 
 
-
 grid.addEventListener('click', (e)=>{
     
     let card = e.target.closest(".card")
@@ -239,9 +267,6 @@ function handleDelete(id, activeTab) {
         const index = data[activeTab].findIndex(
             item => item.id == id
         );
-
-        console.log(index);
-
         if (index === -1) return;
 
         data[activeTab].splice(index, 1);
@@ -268,6 +293,22 @@ search.addEventListener('input', (e)=>{
     })
     render(filteredItems)
 })
+
+
+choosed_categories.addEventListener("click", (e) => {
+    if (!e.target.classList.contains("remove-cat")) return;
+
+    const cat = e.target.dataset.cat;
+
+    selected_categories = selected_categories.filter(
+        item => item !== cat
+    );
+
+    display_selected_categories();
+});
+
+
+
 
 
 
