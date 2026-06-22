@@ -249,6 +249,8 @@ form #edit{
     border-radius: 4px;
     font-size: 14px;
     white-space: nowrap;
+    display: flex;
+    gap: 1vh;
 }
 
 .choosed-categories h5 span{

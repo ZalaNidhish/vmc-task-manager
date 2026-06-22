@@ -38,7 +38,7 @@ let categories = JSON.parse(localStorage.getItem("categoryList"))
 function display_selected_categories(){
     choosed_categories.innerHTML = ''
     selected_categories.forEach(cat => {
-        choosed_categories.innerHTML += `<h5 class="choosed-cat">${cat}<span class="remove-cat">x</span></h5>`
+        choosed_categories.innerHTML += `<h5 class="choosed-cat"><p>${cat}</p><span data-cat="${cat}" class="remove-cat">x</span></h5>`
     })
 }
 
@@ -296,9 +296,11 @@ search.addEventListener('input', (e)=>{
 
 
 choosed_categories.addEventListener("click", (e) => {
-    if (!e.target.classList.contains("remove-cat")) return;
+    const removeBtn = e.target.closest(".remove-cat");
 
-    const cat = e.target.dataset.cat;
+    if (!removeBtn) return;
+
+    const cat = removeBtn.dataset.cat;
 
     selected_categories = selected_categories.filter(
         item => item !== cat
@@ -306,7 +308,6 @@ choosed_categories.addEventListener("click", (e) => {
 
     display_selected_categories();
 });
-
 
 
 
